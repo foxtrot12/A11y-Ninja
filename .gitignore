@@ -1,0 +1,8 @@
+# Ignore node_modules directory
+node_modules/
+
+# Optional: Ignore npm debugging logs
+npm-debug.log*
+
+# Optional: Ignore .env files that may contain sensitive information
+.env

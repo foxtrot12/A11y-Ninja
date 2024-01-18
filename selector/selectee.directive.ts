@@ -16,7 +16,6 @@ import { SelectorDirective, selectedSelectee$ } from "./selector.directive";
 })
 export class SelecteeDirective implements OnDestroy {
   @Input() value: any;
-  @Input() parentDirective: SelectorDirective;
   @Input() selectWithKeyboard: boolean = false;
 
   @HostBinding("attr.aria-selected") isSelected: boolean = false;
