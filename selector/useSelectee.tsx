@@ -1,3 +1,5 @@
+import { HTMLAttributes, useMemo } from "react";
+import { useSelectorReturnType } from "./useSelector";
 export interface useSelecteeReturnType<T> {
   elementProps: HTMLAttributes<any>;
   isSelected: boolean;

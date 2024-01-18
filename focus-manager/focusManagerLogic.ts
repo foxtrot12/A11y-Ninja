@@ -1,4 +1,4 @@
-import { Subscription, asapScheduler, fromEvent } from 'rxjs';
+import { Subscription, asapScheduler, fromEvent } from "rxjs";
 
 /**
  * Initializes the logic for handling focus events and keyboard interactions.
@@ -59,7 +59,7 @@ export function initLogic(
   };
 
   const onKeyDown = (evt: KeyboardEvent) => {
-    if (evt.key === 'Escape' && onEsc) {
+    if (evt.key === "Escape" && onEsc) {
       onEsc();
 
       evt.stopPropagation();
@@ -82,16 +82,16 @@ export function initLogic(
 
         if (!firstFocusableElement || !lastFocusableElement) {
           throw new Error(
-            'Focusable element not found in list - ' +
-              (firstFocusableElement ? '1' : '0')
+            "Focusable element not found in list - " +
+              (firstFocusableElement ? "1" : "0")
           );
         }
 
-        const firstElKeySubs = fromEvent(
+        const firstElKeySubs = fromEvent<KeyboardEvent>(
           firstFocusableElement,
-          'keydown'
-        ).subscribe((ev: KeyboardEvent) => {
-          if (ev.shiftKey && ev.code === 'Tab') {
+          "keydown"
+        ).subscribe((ev) => {
+          if (ev.shiftKey && ev.code === "Tab") {
             ev.preventDefault();
 
             lastFocusableElement.focus();
@@ -100,11 +100,11 @@ export function initLogic(
 
         subsManager.add(firstElKeySubs);
 
-        const lastElKeySubs = fromEvent(
+        const lastElKeySubs = fromEvent<KeyboardEvent>(
           lastFocusableElement,
-          'keydown'
-        ).subscribe((ev: KeyboardEvent) => {
-          if (ev.code === 'Tab' && !ev.shiftKey) {
+          "keydown"
+        ).subscribe((ev) => {
+          if (ev.code === "Tab" && !ev.shiftKey) {
             ev.preventDefault();
 
             firstFocusableElement.focus();
@@ -191,18 +191,18 @@ function findLastFocusable(ele: HTMLElement, isRoot?: boolean) {
 function isElementFocusable(ele: HTMLElement) {
   if (ele) {
     const isMatching =
-      (ele.tagName === 'A' && ele.hasAttribute('href')) ||
-      (ele.tagName === 'AREA' && ele.hasAttribute('href')) ||
-      ((ele.tagName === 'INPUT' ||
-        ele.tagName === 'SELECT' ||
-        ele.tagName === 'TEXTAREA' ||
-        ele.tagName === 'BUTTON') &&
-        !ele.hasAttribute('disabled')) ||
-      ele.tagName === 'IFRAME' ||
-      ele.tagName === 'OBJECT' ||
-      ele.tagName === 'EMBED' ||
-      ele.hasAttribute('tabindex') ||
-      ele.hasAttribute('contenteditable');
+      (ele.tagName === "A" && ele.hasAttribute("href")) ||
+      (ele.tagName === "AREA" && ele.hasAttribute("href")) ||
+      ((ele.tagName === "INPUT" ||
+        ele.tagName === "SELECT" ||
+        ele.tagName === "TEXTAREA" ||
+        ele.tagName === "BUTTON") &&
+        !ele.hasAttribute("disabled")) ||
+      ele.tagName === "IFRAME" ||
+      ele.tagName === "OBJECT" ||
+      ele.tagName === "EMBED" ||
+      ele.hasAttribute("tabindex") ||
+      ele.hasAttribute("contenteditable");
 
     return isMatching;
   } else {
@@ -219,8 +219,8 @@ function isElementFocusable(ele: HTMLElement) {
 function isElementSeenInDom(ele: HTMLElement): boolean {
   const eleStyle = getComputedStyle(ele);
   return (
-    eleStyle.display !== 'none' &&
-    eleStyle.visibility !== 'hidden' &&
+    eleStyle.display !== "none" &&
+    eleStyle.visibility !== "hidden" &&
     !ele.hidden
   );
 }

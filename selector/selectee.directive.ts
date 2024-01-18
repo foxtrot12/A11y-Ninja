@@ -19,10 +19,6 @@ export class SelecteeDirective implements OnDestroy {
   @Input() parentDirective: SelectorDirective;
   @Input() selectWithKeyboard: boolean = false;
 
-  constructor(private el: ElementRef, private cdRef: ChangeDetectorRef) {
-    super();
-  }
-
   @HostBinding("attr.aria-selected") isSelected: boolean = false;
 
   @HostListener("click")

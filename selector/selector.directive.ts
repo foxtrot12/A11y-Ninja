@@ -5,6 +5,7 @@ import {
   Output,
   OnDestroy,
   OnInit,
+  EventEmitter,
 } from "@angular/core";
 import { handleSelection } from "./selectorLogic";
 import { Subject, Subscription } from "rxjs";
@@ -38,7 +39,7 @@ export class SelectorDirective implements OnDestroy, OnInit {
       this.#_selected,
       this.deselectOnClick
     );
-    this.customEvent.emit({
+    this.selectionChanged.emit({
       allSelected: this.#_selected,
       latestSelected: value,
     });

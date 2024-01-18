@@ -1,6 +1,6 @@
 import { initLogic } from "./focusManagerLogic";
 import { Subscription, fromEvent } from "rxjs";
-import { useEffect } from "react";
+import { useEffect, MutableRefObject } from "react";
 
 /**
  *
@@ -11,7 +11,7 @@ import { useEffect } from "react";
  * @param onFocusOutCb
  */
 export function useFocusManager(
-  domRef: React.MutableRefObject<HTMLElement>,
+  domRef: MutableRefObject<HTMLElement>,
   domState: boolean,
   trapFocus?: boolean,
   onEsc?: Function,
@@ -22,7 +22,7 @@ export function useFocusManager(
 
     const { onFocusIn, onFocusOut, onKeyDown, garbageCollector } = initLogic(
       domRef.current,
-      trapFocus,
+      trapFocus ?? false,
       onFocusOutCb,
       onEsc
     );
@@ -30,20 +30,20 @@ export function useFocusManager(
     if (domRef.current) {
       if (onEsc) {
         _subsManager.add(
-          fromEvent(domRef.current, "keydown").subscribe((evt: KeyboardEvent) =>
+          fromEvent<KeyboardEvent>(domRef.current, "keydown").subscribe((evt) =>
             onKeyDown(evt)
           )
         );
       }
 
       _subsManager.add(
-        fromEvent(domRef.current, "focusin").subscribe((evt: FocusEvent) =>
+        fromEvent<FocusEvent>(domRef.current, "focusin").subscribe((evt) =>
           onFocusIn(evt)
         )
       );
 
       _subsManager.add(
-        fromEvent(domRef.current, "focusout").subscribe((evt: FocusEvent) => {
+        fromEvent<FocusEvent>(domRef.current, "focusout").subscribe((evt) => {
           onFocusOut(evt);
         })
       );
