@@ -1,16 +1,47 @@
+import { JSUtils } from 'src/app/common/jsUtils/jsUtils';
+
 export interface cell {
   row: number;
   col: number;
 }
 
-/**
- * Handles keyboard navigation within an HTML table and returns the focused element after navigation.
- *
- * @param {KeyboardEvent} event - The keyboard event triggering the navigation.
- * @param {HTMLTableElement} table - The HTML table element to navigate within.
- * @returns {HTMLTableCellElement | null} The newly focused HTML table cell element after navigation.
- */
-export function handleTableKeyboardNavigation(
+export function initTableKeyboardNavigationLogic(table: HTMLTableElement): {
+  handleKeyDown: (evt: KeyboardEvent) => cell;
+  onTableFocus: (evt: FocusEvent) => void;
+} {
+  const _allCells = getAllCells(table);
+  let _focusedEl: cell;
+
+  const focusCell = (cellToFocus: cell) => {
+    if(!_allCells){
+      return
+    }
+    const row = cellToFocus.row;
+    const col = cellToFocus.col;
+    const tableCell = _allCells[row][col];
+    tableCell?.focus();
+  };
+
+  const handleKeyDown = (evt: KeyboardEvent) => {
+    _focusedEl = handleTableKeyboardNavigation(evt, _allCells, _focusedEl);
+    _focusedEl ? focusCell(_focusedEl) : null;
+    return _focusedEl;
+  };
+
+  const onTableFocus = (ev: FocusEvent) => {
+    if (ev.target === table) {
+      _focusedEl = { row: 0, col: 0 };
+      focusCell(_focusedEl);
+    }
+  };
+
+  return {
+    handleKeyDown,
+    onTableFocus,
+  };
+}
+
+function handleTableKeyboardNavigation(
   event: KeyboardEvent,
   allCells: Array<Array<HTMLTableCellElement>>,
   focusedElIndices?: { row: number; col: number }
@@ -37,7 +68,7 @@ export function handleTableKeyboardNavigation(
     } else if (col >= numCols) {
       col = 0;
     }
-
+    event.preventDefault();
     return { row, col };
   };
 
@@ -47,16 +78,16 @@ export function handleTableKeyboardNavigation(
     key: string
   ): { row: number; col: number } => {
     switch (key) {
-      case "ArrowUp":
+      case 'ArrowUp':
         row--;
         break;
-      case "ArrowDown":
+      case 'ArrowDown':
         row++;
         break;
-      case "ArrowLeft":
+      case 'ArrowLeft':
         col--;
         break;
-      case "ArrowRight":
+      case 'ArrowRight':
         col++;
         break;
     }
@@ -66,35 +97,31 @@ export function handleTableKeyboardNavigation(
   let { row, col } = focusedElIndices;
 
   switch (event.key) {
-    case "ArrowUp":
-    case "ArrowDown":
-    case "ArrowLeft":
-    case "ArrowRight":
+    case 'ArrowUp':
+    case 'ArrowDown':
+    case 'ArrowLeft':
+    case 'ArrowRight':
       do {
         ({ row, col } = handleArrow(row, col, event.key));
       } while (
-        !(isSet(allCells[row]) && isSet(allCells[row][col])) ||
-        allCells[row][col].textContent === ""
+        !(JSUtils.isSet(allCells[row]) && JSUtils.isSet(allCells[row][col])) ||
+        allCells[row][col].textContent === ''
       ); // Skip empty cells
       break;
-  }
-
-  function isSet(value: any): boolean {
-    return value !== null && value !== undefined;
   }
 
   return { row, col };
 }
 
-export function getAllCells(
+function getAllCells(
   table: HTMLTableElement
 ): Array<Array<HTMLTableCellElement>> {
-  const rows = Array.from(table.querySelectorAll("tr"));
+  const rows = Array.from(table.querySelectorAll('tr'));
   const cellsArray: Array<Array<HTMLTableCellElement>> = [];
 
   for (const row of rows) {
     const cells = Array.from(
-      row.querySelectorAll("th, td")
+      row.querySelectorAll('th, td')
     ) as Array<HTMLTableCellElement>;
     cellsArray.push(cells);
   }
