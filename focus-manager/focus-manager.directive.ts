@@ -64,10 +64,6 @@ import {
       }
     }
   
-    ngOnInit(): void {
-      this.id = this.id ?? `focusManager`;
-    }
-  
     ngAfterViewInit() {
       this._assignFunction();
     }
