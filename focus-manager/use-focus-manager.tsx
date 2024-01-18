@@ -1,5 +1,6 @@
 import { initLogic } from "./focusManagerLogic";
 import { Subscription, fromEvent } from "rxjs";
+import { useEffect } from "react";
 
 /**
  *
@@ -16,7 +17,7 @@ export function useFocusManager(
   onEsc?: Function,
   onFocusOutCb?: Function
 ) {
-  React.useEffect(() => {
+  useEffect(() => {
     const _subsManager: Subscription = new Subscription();
 
     const { onFocusIn, onFocusOut, onKeyDown, garbageCollector } = initLogic(

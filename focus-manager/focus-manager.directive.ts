@@ -1,6 +1,5 @@
 import {
     AfterViewInit,
-    ChangeDetectorRef,
     Directive,
     ElementRef,
     HostListener,
@@ -10,15 +9,12 @@ import {
     OnInit,
     SimpleChanges,
   } from '@angular/core';
-  import { BaseWidget } from 'src/app/common/widget/base-widget';
   import { initLogic } from './focusManagerLogic';
   
   @Directive({
     selector: '[manageFocus]',
-    inputs: ['id', 'parent'],
   })
   export class FocusManagerDirective
-    extends BaseWidget
     implements OnDestroy, OnInit, AfterViewInit, OnChanges
   {
     @Input() domState: boolean;
@@ -43,8 +39,7 @@ import {
       this.#_onKeyDown(event);
     }
   
-    constructor(private hostEl: ElementRef, private cdRef: ChangeDetectorRef) {
-      super();
+    constructor(private hostEl: ElementRef) {
     }
   
     private _assignFunction() {
@@ -63,10 +58,6 @@ import {
       this.#_onKeyDown = onKeyDown;
     }
   
-    protected syncChangesToView(t: any): void {
-      this.cdRef.detectChanges();
-    }
-  
     ngOnChanges(changes: SimpleChanges): void {
       if (changes.domState) {
         this._assignFunction();
@@ -75,16 +66,13 @@ import {
   
     ngOnInit(): void {
       this.id = this.id ?? `focusManager`;
-      super.onInit();
-      this._assignFunction();
     }
   
     ngAfterViewInit() {
-      super.afterViewInit();
+      this._assignFunction();
     }
   
     ngOnDestroy(): void {
-      super.onDestroy();
       this.#_garbageCollector();
     }
   }
