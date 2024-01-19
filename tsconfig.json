@@ -1,0 +1,21 @@
+{
+  "compilerOptions": {
+    /* Language and Environment */
+    "target": "es2016",
+    
+    /* Modules */
+    "module": "commonjs",
+    
+    /* React-specific settings */
+    "jsx": "react",                                
+    "esModuleInterop": true,                        
+    "forceConsistentCasingInFileNames": true,
+    
+    /* Type Checking */
+    "strict": true,
+    "skipLibCheck": true,
+
+    "outDir": "./dist",      
+    "rootDir": "./src",  
+  }
+}

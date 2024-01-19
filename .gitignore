@@ -1,5 +1,6 @@
 # Ignore node_modules directory
 node_modules/
+dist/
 
 # Optional: Ignore npm debugging logs
 npm-debug.log*

@@ -1,8 +1,11 @@
 
-# Comprehensive UI Accessibility Library
+# A11y Ninja
 
 ## Overview
 This library is a collection of TypeScript modules designed to enhance accessibility and user interaction within web applications. It includes utilities for focus management, selection behaviors, and keyboard navigation in tables, making it ideal for Angular and React-based applications. The modules are:
+
+## Purpose:
+This library serves a crucial role in the web development landscape by addressing accessibility concerns in pre-existing projects where the adoption of entirely new components, such as those from Material-UI (MUI) or React Aria, may not be a feasible option. It offers out-of-the-box accessibility enhancements for React and Angular components, making it a valuable resource for improving accessibility without the need for a complete overhaul. By utilizing the core logic files provided in each module, developers can seamlessly implement the same accessibility functionality in other JavaScript frameworks, ensuring a more inclusive and accessible user experience across various web applications.
 
 1. **focus-manager**: Focus management utilities.
 2. **selector**: Selection behavior utilities.

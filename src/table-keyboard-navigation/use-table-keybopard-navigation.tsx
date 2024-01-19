@@ -1,4 +1,4 @@
-import { HTMLProps, useEffect, useRef, useState } from "react";
+import { HTMLProps, MutableRefObject, useEffect, useRef } from "react";
 import { fromEvent } from "rxjs";
 import { initTableKeyboardNavigationLogic } from "./tableKeyboardNavigationLogic";
 
@@ -7,14 +7,18 @@ import { initTableKeyboardNavigationLogic } from "./tableKeyboardNavigationLogic
  */
 interface useTableKeyboardNavigationReturnType {
   tableProps: HTMLProps<HTMLTableElement>;
-  focusedElement: HTMLTableCellElement;
+  focusedElement: HTMLTableCellElement | null;
 }
 
 export function useTableKeyboardNavigation(): useTableKeyboardNavigationReturnType {
   const tableRef = useRef<HTMLTableElement>(null);
-  const focusedElementRef = useRef<HTMLElement>(null);
+  const focusedElementRef: MutableRefObject<HTMLTableCellElement | null> =
+    useRef(null);
 
   useEffect(() => {
+    if (!tableRef.current) {
+      return;
+    }
     const { handleKeyDown, onTableFocus } = initTableKeyboardNavigationLogic(
       tableRef.current
     );
@@ -38,7 +42,7 @@ export function useTableKeyboardNavigation(): useTableKeyboardNavigationReturnTy
   }, [tableRef.current]);
 
   return {
-    tableProps: { tableRef },
+    tableProps: { ref: tableRef },
     focusedElement: focusedElementRef.current,
   };
 }

@@ -4,7 +4,7 @@ export interface cell {
 }
 
 export function initTableKeyboardNavigationLogic(table: HTMLTableElement): {
-  handleKeyDown: (evt: KeyboardEvent) => HTMLElement;
+  handleKeyDown: (evt: KeyboardEvent) => HTMLTableCellElement;
   onTableFocus: (evt: FocusEvent) => void;
 } {
   const _allCells = getAllCells(table);
